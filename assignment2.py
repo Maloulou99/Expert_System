@@ -1,19 +1,29 @@
 class RoomSettings():
     def __init__(self, window_number=0, room_occupied=False, room_temperature=0, is_window_open=False, 
-                 room_number=0, ventilation_activated=0):
+                 room_number=0, ventilation_activated=0,weather_outside=0 ):
         self.window_number = window_number
         self.room_occupied = room_occupied
         self.room_temperature = room_temperature
         self.is_window_open = is_window_open 
         self.room_number = room_number
         self.ventilation_activated = ventilation_activated
+        self.weather_outside = weather_outside
              
     # Artificial light is switched on in a room when:
     # - The building is open for the specified day and hour
     # - The room is occupied
     # - There is no natural light in room at the specified hour
     def is_light_switched(self, day, hour):
-        if self.is_building_open(day, hour) and (self.room_occupied == True) and not self.is_neutral_light(hour):
+       if self.is_building_open(day, hour) and self.room_occupied and not self.is_neutral_light(hour):
+            return True
+       else:
+            return False
+        
+    # There is natural light in a room when:
+    # - It is morning (hour is between 9 and 16)
+    # - The room has at least one window
+    def is_neutral_light(self, hour):
+        if 9 <= hour <= 16 and self.window_number >= 1:
             return True
         else:
             return False
@@ -23,7 +33,7 @@ class RoomSettings():
     # - The room is occupied
     # - The room does not have windows or the weather is not mild
     def is_ventilation_activated(self, day, hour):
-        if self.is_building_open(day, hour) and self.room_occupied and (self.window_number == 0 or self.weather_outside(self.room_temperature)):
+        if self.is_building_open(day, hour) and self.room_occupied == True and (self.window_number == 0 or not self.is_weather_outside(self.weather_outside) == "mild"):
             return True
         else:
             return False
@@ -34,7 +44,7 @@ class RoomSettings():
     # - The weather is hot
     # - Room temperature is above 27 degrees Celsius
     def is_conditioning_activated(self, day, hour):
-       if self.is_building_open(day, hour) and self.room_occupied == True and self.weather_outside(self.room_temperature) == "hot" and self.room_temperature >= 27:
+       if self.is_building_open(day, hour) and self.room_occupied == True and self.is_weather_outside(self.weather_outside) == "hot" and self.room_temperature >= 27:
             return True
        else:
             return False
@@ -46,19 +56,11 @@ class RoomSettings():
     # - The weather is cold
     # - Room temperature is below 19 degrees Celsius
     def is_heating_activated(self, day, hour): 
-        if self.is_building_open(day, hour) and self.room_occupied == True and self.weather_outside(self.room_temperature) == "cold" and self.room_temperature < 19:
+        if self.is_building_open(day, hour) and (self.room_occupied == True) and (self.is_weather_outside(self.weather_outside) == "cold") and self.room_temperature < 19:
             return True
         else:
             return False
         
-    # There is natural light in a room when:
-    # - It is morning (hour is between 9 and 16)
-    # - The room has at least one window
-    def is_neutral_light(self, hour):
-        if 9 <= hour <= 16 and self.window_number >= 1:
-            return True
-        else:
-            return False
         
     # Building is open when:
     # - It is work day (day is between Monday and Friday)
@@ -90,7 +92,7 @@ class RoomSettings():
     #It is considered mild weather when temperature is greater than 17C and less than 31C. 
     #It is considered cold weather when temperature is less than or equal to 17C. 
     #It is considered hot weather when temperature is greater than or equal to 31C. 
-    def weather_outside(self, temperature):
+    def is_weather_outside(self, temperature):
         if temperature <= 17:
             return "cold"
         elif 17 < temperature < 31:
@@ -100,9 +102,9 @@ class RoomSettings():
 
 # Check the status of the rooms
 # Create objects for room settings
-room1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1)
-room2 = RoomSettings(window_number=2, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2)
-room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3)  # Assuming room3 is not occupied and has no windows
+room1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=23)
+room2 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=23)
+room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=23)  # Assuming room3 is not occupied and has no windows
 
 print("Building status:")
 print("room1: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
