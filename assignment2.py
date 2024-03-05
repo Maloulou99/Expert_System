@@ -2,6 +2,8 @@
 
 import datetime
 
+
+
 def building_open(day,hour): 
 #building is open: Monday- Friday and between 8 and 20
     if day.weekday() < 5 and 8 <= hour <= 20:
