@@ -1,4 +1,4 @@
-1. Implementation of the expert system algorithm in Python (7 points) 
+#1. Implementation of the expert system algorithm in Python (7 points) 
 class RoomSettings():
     def __init__(self, window_number=0, room_occupied=False, room_temperature=0, is_window_open=False, 
                  room_number=0, ventilation_activated=0,weather_outside=0 ):
@@ -249,3 +249,36 @@ floors_3 = [
 building_3 = Building(floors_3)
 
 building_3.visualize_building()
+
+
+#Interaction with the User 
+room_user = input("In which room are you?")
+window_user = int(input("How many windows are in the room?"))
+
+def is_window(window_user):
+    if window_user >= 1: 
+        return True
+    else: 
+        return False
+
+
+def window_true(window_user):
+    if window_user >= 0:
+        window_user = input("How many windows are open?") 
+        return int(window_user)
+    else:
+        window_user = False 
+        return int(window_user)
+
+print(window_true(window_user))
+
+room_occupied_user = input("Is the room occupied? please answer with: Yes or No")
+
+room_temperature_user = int(input("What is the temperature of the room?"))
+change_room_temperature = input("Do you want to change the room temperature? please answer with: Yes or No")
+
+
+
+
+    
+
