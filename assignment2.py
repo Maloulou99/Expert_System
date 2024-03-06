@@ -1,4 +1,4 @@
-#1. Implementation of the expert system algorithm in Python (7 points) 
+1. Implementation of the expert system algorithm in Python (7 points) 
 class RoomSettings():
     def __init__(self, window_number=0, room_occupied=False, room_temperature=0, is_window_open=False, 
                  room_number=0, ventilation_activated=0,weather_outside=0 ):
@@ -234,6 +234,7 @@ building_2 = Building(floors_2)
 
 building_2.visualize_building()
 print()
+
 
 #EXEMPLE 3
 room1_3 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=12)
