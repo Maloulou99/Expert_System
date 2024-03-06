@@ -1,3 +1,4 @@
+#1. Implementation of the expert system algorithm in Python (7 points) 
 class RoomSettings():
     def __init__(self, window_number=0, room_occupied=False, room_temperature=0, is_window_open=False, 
                  room_number=0, ventilation_activated=0,weather_outside=0 ):
@@ -100,11 +101,10 @@ class RoomSettings():
         else:
             return "hot"
 
-# Check the status of the rooms
-# Create objects for room settings
+#EXEMPLE 1
 room1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=23)
 room2 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=23)
-room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=23)  # Assuming room3 is not occupied and has no windows
+room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=23)  
 
 print("Building status:")
 print("room1: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
@@ -128,3 +128,123 @@ print("room3: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Hea
 print("floor1: - Floor alarm: {}".format("on" if room1.is_floor_alarm_triggered(1, 10) else "off"))
 print("floor2: - Floor alarm: {}".format("on" if room3.is_floor_alarm_triggered(1, 10) else "off"))
 print("Building alarm: - Building alarm: {}".format("on" if room1.is_building_alarm_triggered(1, 10) else "off"))
+
+#EXEMPLE 2
+room1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=12)
+room2 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=12)
+room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=12)  
+
+print("Building status:")
+print("room1: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room1.is_light_switched(1, 10) else "off", 
+    "on" if room1.is_ventilation_activated(1, 10) else "off", 
+    "on" if room1.is_conditioning_activated(1, 10) else "off", 
+    "on" if room1.is_heating_activated(1, 10) else "off"))
+
+print("room2: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room2.is_light_switched(1, 10) else "off", 
+    "on" if room2.is_ventilation_activated(1, 10) else "off", 
+    "on" if room2.is_conditioning_activated(1, 10) else "off", 
+    "on" if room2.is_heating_activated(1, 10) else "off"))
+
+print("room3: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room3.is_light_switched(1, 10) else "off", 
+    "on" if room3.is_ventilation_activated(1, 10) else "off", 
+    "on" if room3.is_conditioning_activated(1, 10) else "off",
+    "on" if room3.is_heating_activated(1, 10) else "off"))
+
+print("floor1: - Floor alarm: {}".format("on" if room1.is_floor_alarm_triggered(1, 10) else "off"))
+print("floor2: - Floor alarm: {}".format("on" if room3.is_floor_alarm_triggered(1, 10) else "off"))
+print("Building alarm: - Building alarm: {}".format("on" if room1.is_building_alarm_triggered(1, 10) else "off"))
+
+#EXEMPLE 3
+room1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=12)
+room2 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=25)
+room3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=15) 
+
+print("Building status:")
+print("room1: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room1.is_light_switched(1, 22) else "off", 
+    "on" if room1.is_ventilation_activated(1, 22) else "off", 
+    "on" if room1.is_conditioning_activated(1, 22) else "off", 
+    "on" if room1.is_heating_activated(1, 22) else "off"))
+
+print("room2: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room2.is_light_switched(1, 22) else "off", 
+    "on" if room2.is_ventilation_activated(1, 22) else "off", 
+    "on" if room2.is_conditioning_activated(1, 22) else "off", 
+    "on" if room2.is_heating_activated(1, 22) else "off"))
+
+print("room3: - Artificial light: {}, Ventilation: {}, Air conditioning: {}, Heating: {}".format(
+    "on" if room3.is_light_switched(1, 22) else "off", 
+    "on" if room3.is_ventilation_activated(1, 22) else "off", 
+    "on" if room3.is_conditioning_activated(1, 22) else "off",
+    "on" if room3.is_heating_activated(1, 22) else "off"))
+
+print("floor1: - Floor alarm: {}".format("on" if room1.is_floor_alarm_triggered(1, 22) else "off"))
+print("floor2: - Floor alarm: {}".format("on" if room3.is_floor_alarm_triggered(1, 22) else "off"))
+print("Building alarm: - Building alarm: {}".format("on" if room1.is_building_alarm_triggered(1, 22) else "off"))
+
+
+#3. Visualization (2 points, optional) 
+class Building():
+    def __init__(self, floors):
+        self.floors = floors
+
+    def visualize_building(self):
+        print("Building Visualization:")
+        for floor_num, floor in enumerate(self.floors, start=1):
+            print(f"Floor {floor_num}:")
+            for room_num, room in enumerate(floor, start=1):
+                print(f"\tRoom {room_num}:")
+                print(f"\t\tOccupied: {room.room_occupied}")
+                print(f"\t\tWindow Count: {room.window_number}")
+                print(f"\t\tWindow Status: {'Open' if room.is_window_open else 'Closed'}")
+                print(f"\t\tRoom Temperature: {room.room_temperature}C")
+                print(f"\t\tWeather Outside: {room.weather_outside}C")
+
+
+#EXEMPLE 1
+
+room1_1 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=23)
+room2_1 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=23)
+room3_1 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=23)
+
+floors_1 = [
+    [room1_1, room2_1],  # Floor 1
+    [room3_1]            # Floor 2
+]
+
+building_1 = Building(floors_1)
+
+building_1.visualize_building()
+print()
+
+#EXEMPLE 2
+room1_2 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=12)
+room2_2 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=12)
+room3_2 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=12)
+
+floors_2 = [
+    [room1_2, room2_2], 
+    [room3_2]            
+]
+
+building_2 = Building(floors_2)
+
+building_2.visualize_building()
+print()
+
+#EXEMPLE 3
+room1_3 = RoomSettings(window_number=2, room_occupied=True, room_temperature=14, is_window_open=True, room_number=1, weather_outside=12)
+room2_3 = RoomSettings(window_number=0, room_occupied=True, room_temperature=25, is_window_open=False, room_number=2, weather_outside=25)
+room3_3 = RoomSettings(window_number=0, room_occupied=False, room_temperature=15, is_window_open=False, room_number=3, weather_outside=15)
+
+floors_3 = [
+    [room1_3, room2_3],  
+    [room3_3]             
+]
+
+building_3 = Building(floors_3)
+
+building_3.visualize_building()
