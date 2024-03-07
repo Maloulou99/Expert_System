@@ -298,10 +298,9 @@ while True:
 
     change_bool = input("Do you want to change something in the building? Please answer with: Yes or No")
 
-    if change_bool.lower() == "yes":
-        change_bool = True 
-    else:
-        change_bool = False and print("Thanks u goodbye")
+    if change_bool.lower() == "no":
+        print("Thanks u goodbye")
+        break
         
     
 
