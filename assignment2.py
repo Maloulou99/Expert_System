@@ -1,14 +1,22 @@
 #1. Implementation of the expert system algorithm in Python (7 points) 
 class RoomSettings():
     def __init__(self, window_number=0, room_occupied=False, room_temperature=0, is_window_open=False, 
-                 room_number=0, ventilation_activated=0,weather_outside=0 ):
+                 room_number=0,weather_outside=0 ):
         self.window_number = window_number
         self.room_occupied = room_occupied
         self.room_temperature = room_temperature
         self.is_window_open = is_window_open 
         self.room_number = room_number
-        self.ventilation_activated = ventilation_activated
         self.weather_outside = weather_outside
+
+    def __str__(self):
+            return (f"RoomSettings: "
+                f"Window Number: {self.window_number}, "
+                f"Room Occupied: {self.room_occupied}, "
+                f"Room Temperature: {self.room_temperature}, "
+                f"Is Window Open: {self.is_window_open}, "
+                f"Room Number: {self.room_number}, "
+                f"Weather Outside: {self.weather_outside}")
              
     # Artificial light is switched on in a room when:
     # - The building is open for the specified day and hour
@@ -251,31 +259,63 @@ building_3 = Building(floors_3)
 building_3.visualize_building()
 
 
-#Interaction with the User 
-room_user = input("In which room are you?")
-window_user = int(input("How many windows are in the room?"))
+#Interaction with the User
+change_bool = True
+while change_bool:
+    room_number_user = input("In which room are you?")
 
-def is_window(window_user):
-    if window_user >= 1: 
-        return True
-    else: 
-        return False
+    def get_window_count():
+        # Prompt the user for the number of windows in the room
+        window_count = int(input("How many windows are in the room? "))
+        if window_count > 0:
+            return get_open_window_count(window_count) == True
+        else:
+            return False
 
+    def get_open_window_count(total_windows):
+        if not total_windows:
+            return False
+        # Prompt the user for the number of open windows
+        while True:
+            open_window_count = int(input(f"How many windows are open? (Total windows: {total_windows}): "))
+            if 0 <= open_window_count <= total_windows:
+                return int(open_window_count)
+            else:
+                print("Invalid input. The number of open windows cannot exceed the total number of windows.")
+        
 
-def window_true(window_user):
-    if window_user >= 0:
-        window_user = input("How many windows are open?") 
-        return int(window_user)
+    # Get the total number of windows
+    total_windows = get_window_count()
+
+    # Get the number of open windows
+    open_window_count = get_open_window_count(total_windows)
+
+    # Determine if the room is occupied
+    room_occupied_user = input("Is the room occupied? Please answer with: Yes or No ")
+
+    # Get the room temperature
+    room_temperature_user = int(input("What is the temperature of the room? "))
+
+    test = RoomSettings(int(total_windows),room_occupied_user,room_temperature_user,int(open_window_count),room_number_user)
+
+    print(test)
+
+    change_bool = input("Do you want to change something in the building? Please answer with: Yes or No")
+
+    if change_bool == "Yes".lower: 
+        change_bool = True 
     else:
-        window_user = False 
-        return int(window_user)
+        change_bool = False 
+        print("Thanks u goodbye")
 
-print(window_true(window_user))
 
-room_occupied_user = input("Is the room occupied? please answer with: Yes or No")
 
-room_temperature_user = int(input("What is the temperature of the room?"))
-change_room_temperature = input("Do you want to change the room temperature? please answer with: Yes or No")
+
+
+
+
+
+
 
 
 
