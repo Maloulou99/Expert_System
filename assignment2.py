@@ -268,21 +268,18 @@ while change_bool:
         # Prompt the user for the number of windows in the room
         window_count = int(input("How many windows are in the room? "))
         if window_count > 0:
-            return get_open_window_count(window_count) == True
+            return window_count
         else:
-            return False
+            return 0
 
     def get_open_window_count(total_windows):
-        if not total_windows:
-            return False
         # Prompt the user for the number of open windows
-        while True:
-            open_window_count = int(input(f"How many windows are open? (Total windows: {total_windows}): "))
-            if 0 <= open_window_count <= total_windows:
-                return int(open_window_count)
-            else:
-                print("Invalid input. The number of open windows cannot exceed the total number of windows.")
-        
+        open_window_count = int(input(f"How many windows are open? (Total windows: {total_windows}): "))
+        if 0 <= open_window_count <= total_windows:
+            return open_window_count
+        else:
+            print("Invalid input. The number of open windows cannot exceed the total number of windows.")
+            return 0
 
     # Get the total number of windows
     total_windows = get_window_count()
@@ -302,7 +299,7 @@ while change_bool:
 
     change_bool = input("Do you want to change something in the building? Please answer with: Yes or No")
 
-    if change_bool == "Yes".lower: 
+    if change_bool.lower() == "yes":
         change_bool = True 
     else:
         change_bool = False 
