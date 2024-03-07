@@ -261,7 +261,7 @@ building_3.visualize_building()
 
 #Interaction with the User
 change_bool = True
-while change_bool:
+while True:
     room_number_user = input("In which room are you?")
 
     def get_window_count():
@@ -273,24 +273,23 @@ while change_bool:
             return 0
 
     def get_open_window_count(total_windows):
+        if not total_windows:
+            return False
         # Prompt the user for the number of open windows
-        open_window_count = int(input(f"How many windows are open? (Total windows: {total_windows}): "))
-        if 0 <= open_window_count <= total_windows:
-            return open_window_count
-        else:
-            print("Invalid input. The number of open windows cannot exceed the total number of windows.")
-            return 0
+        while True:
+            open_window_count = int(input(f"How many windows are open? (Total windows: {total_windows}): "))
+            if 0 <= open_window_count <= total_windows:
+                return int(open_window_count)
+            else:
+                print("Invalid input. The number of open windows cannot exceed the total number of windows.")
+        
 
-    # Get the total number of windows
     total_windows = get_window_count()
 
-    # Get the number of open windows
     open_window_count = get_open_window_count(total_windows)
 
-    # Determine if the room is occupied
     room_occupied_user = input("Is the room occupied? Please answer with: Yes or No ")
 
-    # Get the room temperature
     room_temperature_user = int(input("What is the temperature of the room? "))
 
     test = RoomSettings(int(total_windows),room_occupied_user,room_temperature_user,int(open_window_count),room_number_user)
@@ -302,8 +301,9 @@ while change_bool:
     if change_bool.lower() == "yes":
         change_bool = True 
     else:
-        change_bool = False 
-        print("Thanks u goodbye")
+        change_bool = False and print("Thanks u goodbye")
+        
+    
 
 
 
