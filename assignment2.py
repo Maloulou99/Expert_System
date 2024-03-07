@@ -194,6 +194,7 @@ print("floor2: - Floor alarm: {}".format("on" if room3.is_floor_alarm_triggered(
 print("Building alarm: - Building alarm: {}".format("on" if room1.is_building_alarm_triggered(1, 22) else "off"))
 
 
+
 #3. Visualization (2 points, optional) 
 class Building():
     def __init__(self, floors):

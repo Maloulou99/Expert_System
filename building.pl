@@ -1,40 +1,46 @@
-% Facts about rooms
-room(room1, 2, true, 14, true).
-room(room2, 0, true, 25, false).
-room(room3, 0, false, 15, false).
+%2. Implementation of the expert system algorithm in Prolog (1 points, optional) 
+% Facts
+is_building_open(Day, Hour) :- 
+    between(1, 5, Day), 
+    between(8, 20, Hour).
 
-% Rules for room status
-% Rule for artificial light
-is_artificial_light_on(Room) :-
-    room(Room, _, _, _, ArtificialLight),
-    ArtificialLight = true.
+is_weather_outside(Weather, mild) :- Weather > 17, Weather < 31.
+is_weather_outside(Weather, cold) :- Weather =< 17.
+is_weather_outside(Weather, hot) :- Weather >= 31.
 
-% Rule for ventilation
-is_ventilation_on(Room) :-
-    room(Room, _, _, _, _, Ventilation),
-    Ventilation = true.
+% Rules
+is_light_switched(Day, Hour, WindowNumber, RoomOccupied, RoomTemperature, IsWindowOpen, WeatherOutside) :-
+    is_building_open(Day, Hour),
+    RoomOccupied == true,
+    \+ is_neutral_light(Hour, WindowNumber),
+    is_weather_outside(WeatherOutside, _).
 
-% Rule for air conditioning
-is_air_conditioning_on(Room) :-
-    room(Room, _, _, _, _, _, AirConditioning),
-    AirConditioning = true.
+is_neutral_light(Hour, WindowNumber) :-
+    between(9, 16, Hour),
+    WindowNumber >= 1.
 
-% Rule for heating
-is_heating_on(Room) :-
-    room(Room, _, _, _, _, _, _, Heating),
-    Heating = true.
+is_ventilation_activated(Day, Hour, WindowNumber, RoomOccupied, WeatherOutside) :-
+    is_building_open(Day, Hour),
+    RoomOccupied == true,
+    (WindowNumber == 0 ; \+ is_weather_outside(WeatherOutside, mild)).
 
-% Rule for window status
-is_window_open(Room) :-
-    room(Room, _, _, _, _, _, _, _, _, Window),
-    Window = true.
+is_conditioning_activated(Day, Hour, RoomOccupied, WeatherOutside, RoomTemperature) :-
+    is_building_open(Day, Hour),
+    RoomOccupied == true,
+    is_weather_outside(WeatherOutside, hot),
+    RoomTemperature >= 27.
 
-% Rule for room temperature
-room_temperature(Room, Temperature) :-
-    room(Room, _, _, _, _, _, _, Temperature, _).
+is_heating_activated(Day, Hour, RoomOccupied, WeatherOutside, RoomTemperature) :-
+    is_building_open(Day, Hour),
+    RoomOccupied == true,
+    is_weather_outside(WeatherOutside, cold),
+    RoomTemperature < 19.
 
-% Rule for determining if a room alarm is triggered
-is_room_alarm_triggered(Room) :-
-    is_window_open(Room),
-    room_temperature(Room, Temperature),
-    Temperature > 20.
+is_floor_alarm_triggered(Day, Hour, IsBuildingOpen, IsWindowOpen, RoomNumber) :-
+    \+ IsBuildingOpen,
+    IsWindowOpen == true,
+    RoomNumber >= 1.
+
+is_building_alarm_triggered(Day, Hour, IsBuildingOpen, RoomOccupied) :-
+    \+ IsBuildingOpen,
+    RoomOccupied == true.
